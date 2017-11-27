@@ -46,3 +46,31 @@ for i, degree in enumerate([0, 1, 3, 9]):
     plt.annotate("M={}".format(degree), xy=(-0.15, 1))
 plt.legend(bbox_to_anchor=(1.05, 0.64), loc=2, borderaxespad=0.)
 plt.show()
+
+
+
+def rmse(a, b):
+    return np.sqrt(np.mean(np.square(a - b)))
+
+training_errors = []
+test_errors = []
+
+for i in range(10):
+    feature = PolynomialFeatures(i)
+    X_train = feature.transform(x_train)
+    X_test = feature.transform(x_test)
+
+    model = LinearRegressor()
+    model.fit(X_train, y_train)
+    y = model.predict(X_test)
+    training_errors.append(rmse(model.predict(X_train), y_train))
+    test_errors.append(rmse(model.predict(X_test), y_test + np.random.normal(scale=0.25, size=len(y_test))))
+
+plt.plot(training_errors, 'o-', mfc="none", mec="b", ms=10, c="b", label="Training")
+plt.plot(test_errors, 'o-', mfc="none", mec="r", ms=10, c="r", label="Test")
+plt.legend()
+plt.xlabel("degree")
+plt.ylabel("RMSE")
+plt.show()
+
+
