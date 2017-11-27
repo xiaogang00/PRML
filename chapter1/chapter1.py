@@ -72,5 +72,3 @@ plt.legend()
 plt.xlabel("degree")
 plt.ylabel("RMSE")
 plt.show()
-
-
